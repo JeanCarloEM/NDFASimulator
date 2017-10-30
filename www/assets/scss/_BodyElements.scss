@@ -1,0 +1,159 @@
+.fontpadrao{
+  font-family: $font;
+  line-height: 1 + $AlturaLinhaAMais;
+  font-size: $font-size;
+  color: $textcor;
+}
+
+
+@for $i from 1 through 7 {
+  h#{$i} {
+    @include tmhTexto( ( 7 - $i ) /10 );
+  }
+}
+
+.sublinhatoFull{
+  width: 100%;
+  display: inline-block;
+  border-bottom: 1px solid $cor2;
+}
+
+.align_left{
+  text-align: left;
+}
+
+.align_right{
+  text-align: right;
+}
+
+.align_center{
+  text-align: center;
+}
+
+.align_justify{
+  text-align: justify;
+}
+
+p{
+  @extend .align_justify;
+}
+
+a{
+  text-decoration: none;
+  background: none;
+  color:#ddd;
+
+  &:after{  
+    display: inline-block;
+    
+    line-height: .9em;
+    font: normal normal normal .9em FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;                
+    
+    content: "\f14c";
+    color: #aaa;
+    margin-left: .4em;    
+  }
+  
+  &:visited{
+    color: #ccc;
+  }    
+
+  &:active{
+    color: #fff;
+  }
+
+  &:hover,&:active{
+    text-decoration: underline;
+  }
+}
+
+section.principal{
+  article{
+    .external {
+      background-position: center right;
+      background-repeat: no-repeat;
+      @include background-svg('external-link-ltr-icon');
+      padding-right: 13px;
+    }
+
+    img {
+      border: none;
+      vertical-align: middle;
+    }
+
+    hr {
+      height: 1px;
+      color: #aaa;
+      background-color: #aaa;
+      border: 0;
+      margin: .2em 0;
+    }
+    p {
+      line-height: inherit;
+      margin: 0.5em 0;
+    }
+
+    h1,
+    h2,
+    #firstHeading {
+      font-family: $font;
+      line-height: $heading-line-height;
+      margin-bottom: 0.25em;
+      padding: 0;
+    }
+
+    h1,
+    #firstHeading {
+        font-size: $content-heading-font-size;
+    }
+
+    h2 {
+      font-size: 1.5em;
+      margin-top: 1em;
+    }
+
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-top: 0.3em;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    h3 {
+      font-size: 1.17em;
+    }
+
+    h3,
+    h4 {
+      font-weight: bold;
+    }
+
+    h4,
+    h5,
+    h6 {
+      font-size: 100%; /* (reset) */
+    }
+
+    ul {
+      list-style-type: disc;
+      @include list-style-image('bullet-icon.png');
+    }
+
+    pre, .mw-code {
+      line-height: 1.3em;
+    }
+
+    .redirectText {
+      font-size: 140%;
+    }
+
+    .redirectMsg img {
+      vertical-align: text-bottom;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+/*
+ * -----------------------------------------------------------------------------
+ * LICENCE: GNU LESSER GENERAL PUBLIC LICENSE version 3 (ou posterior)
+ * -----------------------------------------------------------------------------
+ * @package   Grafittano
+ * @author    Jean Carlo de Elias Moreira | http://www.jeancarloem.com
+ * @copyright (c) 2014 Jean Carlo de Elias Moreira | http://www.jeancarloem.com
+ * @license   http://www.gnu.org/licenses/lgpl.html
+ * @link      http://opensource.jeancarloem.com/Grafittano, https://github.com/JeanCarloEM/Grafittano
+ */
+
+$font                       : "sans-serif", "arial", "tahoma", "Helvetica", "Geneva", "verdana";
+$AlturaLinhaAMais           : .5;
+$barraEsquerdaFechada       : 56px;
+$barraEsquerdaAberta        : 185px;
+$MaxAbertoAberta            : $barraEsquerdaAberta;
+$barraEspandidaMin          : 1280px;
+$HeaderBar                  : 42px;
+$MestreHeaderHeight         : 60px;
+$content-heading-font-size  : 1.8em;
+$heading-line-height        : 1.3;
+
+$font-size                  : 1em;
+
+$footerH                    : 3em;
+
+$HerderMid                  : 5em;
+$HerderMestre               : 3.5em;
+$HeaderPrincipal            : 6.7em;
+$HeaderPrincipalMin         : 3.5em;
+
+$PrincipalIcon              : $HeaderPrincipal*1.1;
+
+$recursos_url               : 'recursos/' !default;
+$img_url                    : 'assets/img' !default;
+$font_url                   : 'assets/font' !default;

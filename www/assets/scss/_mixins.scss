@@ -1,0 +1,236 @@
+
+/* USO DE DICAS http://zerosixthree.se/8-sass-mixins-you-must-have-in-your-toolbox/ */
+ 
+@mixin clearfix{
+  *zoom: 1;
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }  
+}
+
+/* QUERY PÁRA PONTO DE INTERRUPÇÃO (CONFIGURAÃO POR TAMANHO)
+ * http://alwaystwisted.com/post.php?s=2013-04-01-my-media-query-mixin
+ */
+@mixin media($point, $IE9: false, $operator1: 'min', $operator2: 'width', $query: 'screen') {
+    @if $IE9 == true{
+        .lt-ie9 & {
+            @content;
+        }
+    }
+
+    $Q : "#{$operator1}" + "-" + "#{$operator2}";
+    
+    @media #{$query} and (#{$Q}: #{$point}) { 
+        @content;
+    }
+}
+
+@mixin media-min-max($value-min, $value-max, $operator: 'width', $query: 'screen') {
+    $op : "min-#{$operator}";
+    $op2: "max-#{$operator}";    
+    
+	@media #{$query} and (#{$op}: #{$value-min}) and (#{$op2}: #{$value-max}) {
+		@content;
+	}
+}
+
+/*
+ * CONFIGURAÇÃO ESPECIAL PARA IPAD/IPHONE RETINA
+ */
+@mixin retina{
+  @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
+    @content;    
+  }
+}
+
+/*
+ * CONFIGURAÇÃO ESPECIAL PARA CELULAR/SMARTPHONE
+ */
+@mixin movel {
+  @include media(360px, TRUE, max){
+    @content;
+  }
+}
+
+/*
+ * CONFIGURAÇÕES ESPECIAIS PARA TABLETE
+ */
+@mixin tablet {
+  @include media(760px, TRUE, max){
+    @content;
+  }
+}
+
+@mixin large {
+  @include media(1280px, TRUE, min){
+    @content;
+  }
+}
+
+@mixin large-menor {
+  @include media(1279px, TRUE, max){
+    @content;
+  }
+}
+
+@mixin box-shadow($top, $left, $blur, $color, $spred: 0,  $inset: ''){  
+  -webkit-box-shadow: $top $left $blur $spred $color #{$inset};
+  -moz-box-shadow:    $top $left $blur $spred $color #{$inset};
+  box-shadow:         $top $left $blur $spred $color #{$inset};  
+}
+
+@mixin border-radius($tl, $tr: false, $bl: false, $br: false){
+  @if not $tr{
+    $tr: $tl;
+  }
+  
+  @if not $bl{
+    $bl: $tl;
+  }  
+  
+  @if not $br{
+    $br: $bl;
+  }    
+  
+  -webkit-border-radius: $tl $tr $bl $br;
+  -moz-border-radius: $tl $tr $bl $br;        
+  -khtml-border-radius: $tl $tr $bl $br;        
+  border-radius: $tl $tr $bl $br;  
+}
+
+@mixin fontSize($size){
+  font-size: $size;
+  font-size: rem($size, $font-size);  
+}
+
+@mixin tmhTexto($tmh){
+  @include fontSize(1 + $tmh + em); 
+  margin-top: 1em;
+  margin-bottom: .3em;  
+}
+
+@mixin opacity($opacity, $important: false) {
+  @if ($important){ 
+    opacity: $opacity !important;
+    
+    $opacity-ie: $opacity * 100;
+    filter: alpha(opacity=$opacity-ie) !important; //IE8
+  }
+  
+  @if not $important{
+    opacity: $opacity;
+    
+    $opacity-ie: $opacity * 100;
+    filter: alpha(opacity=$opacity-ie); //IE8    
+  }
+}
+
+@mixin transition($tempo: .3s, $delay: .1s, $property: all, $function: linear){
+  @include transitionQuery($property $tempo $function $delay);
+}
+
+@mixin transitionQuery($args){  
+  -webkit-transition: $args; 
+  -moz-transition: $args; 
+  -ms-transition: $args; 
+  -o-transition: $args; 
+  transition: $args; 
+}
+
+@mixin caixa($size, $color: $cor2){
+  @include box-sizing($size);
+  border: 1px solid $color;
+}
+
+
+@mixin icon-rotate($degrees, $rotation) {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=#{$rotation});
+  -webkit-transform: rotate($degrees);
+     -moz-transform: rotate($degrees);
+      -ms-transform: rotate($degrees);
+       -o-transform: rotate($degrees);
+          transform: rotate($degrees);
+}
+
+@mixin icon-flip($horiz, $vert, $rotation) {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=#{$rotation});
+  -webkit-transform: scale($horiz, $vert);
+     -moz-transform: scale($horiz, $vert);
+      -ms-transform: scale($horiz, $vert);
+       -o-transform: scale($horiz, $vert);
+          transform: scale($horiz, $vert);
+}
+
+
+@mixin colunas($col){
+  -webkit-column-count: $col; /* Chrome, Safari, Opera */
+  -moz-column-count: $col; /* Firefox */
+  column-count: $col;  
+}
+
+/*
+ * BASEADO EM "Common LESS mixin library for MediaWiki"
+ */
+
+@mixin vertical-gradient($startColor: gray, $endColor: white, $startPos: 0, $endPos: 100%) {
+  background-color: $endColor;
+  background-image: -moz-linear-gradient( top, $startColor $startPos, $endColor $endPos ); // Firefox 3.6+
+  background-image: -webkit-gradient( linear, left top, left bottom, color-stop( $startPos, $startColor ), color-stop( $endPos, $endColor ) ); // Safari 4+, Chrome 2+
+  background-image: -webkit-linear-gradient( top, $startColor $startPos, $endColor $endPos ); // Safari 5.1+, Chrome 10+
+  background-image: linear-gradient( $startColor $startPos, $endColor $endPos ); // Standard
+}
+
+@mixin background-image($url) { 
+  background-image: embed($url);
+  //background-image: url($url)!ie;
+}
+
+/*
+ * SVG support using a transparent gradient to guarantee cross-browser
+ * compatibility (browsers able to understand gradient syntax support also SVG). 
+ * http://pauginer.tumblr.com/post/36614680636/invisible-gradient-technique
+ *
+ * We use gzip compression, which means that it is okay to embed twice.
+ *
+ * We do not embed the fallback image on the assumption that the gain for old browsers
+ * is not worth the harm done to modern ones.
+ */
+@mixin background-svg($svgSemExt, $fallback: png, $repeat: no-repeat, $position: false, $size: false) {
+  background-image: url('#{$img_url}#{$svgSemExt}.svg');
+
+  .no-svg &{
+    background-image: url('#{$img_url}#{$svgSemExt}.#{$fallback}');
+
+      @include retina{
+        background-image: url('#{$img_url}#{$svgSemExt}.@2x.#{$fallback}');          
+      }      
+  }
+
+  background-image: -webkit-linear-gradient(transparent, transparent), url('#{$img_url}#{$svgSemExt}.svg');
+  background-image: linear-gradient(transparent, transparent), url('#{$img_url}#{$svgSemExt}.svg');
+
+  background-repeat: $repeat;
+
+  @if ($size){ 
+    background-size: $size;
+  }
+
+  @if ($position){
+    background-position: $position; 
+  }       
+}
+
+/* Caution: Does not support localisable images */
+@mixin list-style-image($url) {
+  list-style-image: url('#{$img_url}#{$url}');
+}
+
+@mixin box-sizing($value) {
+  -moz-box-sizing: $value;
+  -webkit-box-sizing: $value;
+  box-sizing: $value;
+}

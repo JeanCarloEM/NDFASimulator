@@ -1,0 +1,104 @@
+*{
+  @extend .fontpadrao;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  @include box-sizing(border-box);
+}
+
+html, body{
+  height: 100%; 
+  min-width: 2*$PrincipalIcon+3em;
+}
+
+header, nav, aside, article, section, footer{
+  display: block;
+}
+
+h1,h2,h3,h4,h5,h6,h7{
+  display: block;
+  border-bottom: 1px solid $cor3;
+}
+
+html{
+  height: 100%;
+  
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;  
+     
+  &.tonsclaros{
+    background: #eee;
+    background: -moz-radial-gradient(center, ellipse cover, #eee 1%, #fff 100%);
+    background: -webkit-radial-gradient(center, ellipse cover, #eee 1%,#fff 100%);
+    background: radial-gradient(ellipse at center, #eee 1%,#fff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#fff',GradientType=1 );    
+  }
+  
+  &.altocontraste{
+    background: #000 !important;
+  }  
+}
+
+html,#about{
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  background: $cor1;
+  background: -moz-radial-gradient(center, ellipse cover, $cor2 1%, $cor1 100%);
+  background: -webkit-radial-gradient(center, ellipse cover, $cor2 1%,$cor1 100%);
+  background: radial-gradient(ellipse at center, $cor2 1%,$cor1 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$cor2', endColorstr='$cor1',GradientType=1 );
+}
+
+.clearfix {
+  @include clearfix;
+}
+
+.tipsy{
+  white-space: nowrap;
+  @include box-sizing(content-box);
+  font-size: .9em;
+  margin-top: -$barraEsquerdaFechada;
+  font-weight: bold;
+
+  &,
+  .tipsy-inner{
+    border-color: #000 !important;
+  }
+}
+
+.ie11 body{
+  display: none;
+}
+
+textarea:focus, input[type="text"], input[type="search"]{
+  outline: 0;
+}
+
+.ocultarscroll{
+  &::-webkit-scrollbar { 
+    width: 0 !important;
+    height: 0 !important;
+  }
+  
+  -ms-overflow-style: none;
+  
+  overflow: -moz-scrollbars-none;
+}
+
+.exibir,
+.ocultar{
+  @include transition(.5s, 0s);
+}
+
+.exibir{
+  @include opacity(100, true);  
+}
+
+.ocultar{
+  @include opacity(0, true);  
+}

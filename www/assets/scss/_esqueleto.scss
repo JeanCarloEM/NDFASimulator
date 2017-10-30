@@ -1,0 +1,438 @@
+.animate {
+  @include transition(.5s, 0s);
+}
+
+.pagebody{
+  > .sectionwrapper{
+    min-height: 100%;    
+
+    .contentwrapper{
+    }
+  }
+  sectionwrapper >.pushwrapper,
+  > footer.footerwrapper{        
+  }
+
+  > footer.footerwrapper{
+    display: table;
+    width: 100%;
+    padding: 2em;
+
+    background: rgba(0, 0, 0, .3);
+    color: #bbb;
+
+    > p{
+      margin: .5em 0;
+    }
+
+
+    div.licenca{
+      font-size: .9em;
+
+      > img{
+        float: right;
+        height: 10em;
+        width: auto;
+        text-align: center;      
+        margin-left: 1em;
+        margin-bottom: 1em;
+      }      
+    }
+  }
+}
+
+
+.pagebody{
+  > .sectionwrapper{
+    a.logo{
+      display: block;
+
+      position: fixed;
+      left: 0;
+      top: 0;
+
+      height: $HerderMestre*1.5;
+      width: 14.5em;
+      background: url('../img/logo.png') !important;
+      background-repeat: no-repeat !important;
+      background-position: 0 0 !important;
+      background-size: auto $HerderMestre*1.5 !important;
+      z-index: 120;
+
+      tex-decoration: none !important;
+
+      &:before,
+        &:after{
+        display: none;
+        content: "" !important;
+      }
+    }    
+    .contentwrapper{
+      > header{
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+
+        &.mestre{
+          background: #222;
+
+          z-index: 105;
+
+          &,> div, > a{
+            height: $HerderMestre;
+          }
+
+          > div:first-of-type{
+            float: left;
+            white-space: nowrap;
+
+            color: $cor5;
+
+            span{
+              display: inline-block;
+              font-size: $HerderMestre/2;
+              line-height: 2em;
+              vertical-align: middle;
+              color: $cor4;
+
+              &:first-of-type{
+                color: $cor6;
+              }
+
+              &:last-of-type{
+                color: $branco;
+              }
+            }
+          }
+
+          a.git{
+            float: right;
+            margin-right: .1em;
+            font-size: 3em; 
+            cursor: pointer;
+            color: #ccc;
+            text-decoration: none !important;
+            padding-top: .1em;
+
+            &:hover{
+              color: #4CC2E4;
+            }
+
+            &:active{
+              color: yellow;
+            }
+
+            &:after{
+              content: "";
+            }
+          }
+        }
+
+        &.mid{
+          height: $HerderMid;
+          margin-top: $HerderMestre;
+          z-index: 101;
+          background: #2b92db;
+
+          border-top: 1px solid $cor1;
+          border-bottom: 1px solid $cor1;
+          text-align: center;
+
+          > div{
+            height: $HerderMid;
+            margin-left: .5em;
+            line-height: $HerderMid;
+            vertical-align: middle;
+
+            span{
+              font-size: 1.2em;
+              line-height: .92em;
+
+              display: inline-block;
+              vertical-align: middle;
+
+              color: #fff;
+              border-color: $cor8;
+
+              &.altocontraste{
+                color: #000;
+              }
+            }
+          }
+        }
+      }
+
+      > section.principal{        
+        @extend .animate;
+        @extend .clearfix;       
+
+        margin-top: $HerderMestre + $HerderMid;        
+
+        > div{
+          margin: 1em;
+          padding: 1em;
+          text-align: center;
+
+          > div.avaliar,
+          > div.sigma{
+            display: block;
+            white-space: nowrap;
+
+            > input[type='text']{
+              z-index: 1;              
+              width: 100%;             
+              @include border-radius(.5em);
+              @include box-shadow(0, 0, .5em, .1em, #000);             
+
+              line-height: 1.5em;
+              padding: .5em 3em;   
+              padding-bottom: .4em;
+
+              border: .1em solid #222;
+              background: #ccc url('../img/sigma.svg') no-repeat;
+              color: #444;
+
+              &,&:focus{
+                background-size: 1.5em auto !important;
+                background-position: .5em center !important;
+              }                            
+
+              &:focus{
+                background: #eee url('../img/sigma.svg') no-repeat;                               
+                border-color: #2b92db;
+                color: #000;
+              }                
+
+              ::-webkit-input-placeholde,
+              :-moz-placeholder,
+                ::-moz-placeholder,
+                :-ms-input-placeholder,
+                ::-ms-input-placeholder{
+                color: red;
+              }           
+            }            
+
+            > div{
+              margin-right: .5em;
+              margin-top: .25em; 
+
+              z-index: 2;
+              line-height: 2em;
+              float: right;
+
+              border: .1em solid #eee;
+              background: transparent;
+
+              padding: .3em;
+              line-height: 2em;
+
+              cursor: pointer;
+              vertical-align: middle;
+
+              @include border-radius(.5em);
+
+              &:after{
+                text-align: center;                
+                line-height: normal;
+                vertical-align: middle;
+                display: block;
+
+                font: normal normal normal $HeaderPrincipal/5 FontAwesome;
+                text-rendering: auto;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                color: #2b92db;
+                vertical-align: middle;
+                content: "\f045";              
+              }
+
+              &:hover{
+                border-color: #bbb;
+                background: #2b92db;
+
+                &:after{
+                  color: #ddd;
+                }
+              }
+              &:active{
+                border-color: #fff;
+                background: #2b92db;
+
+                &:after{
+                  color: #fff;
+                }
+              }                           
+            }
+          }
+
+          > div.avaliar{
+            div{
+              span{
+                display: inline-block;
+                float: right;
+                margin-left: 2em;
+                font-size: .98em;
+                color: #2b92db;
+                margin-right: .5em;
+              }
+
+              &:hover span{
+                color: #ccc;
+              }
+
+              &:active span{
+                color: #fff;
+              }              
+            }
+          }
+
+          div.tbl{
+            margin: 1em 0;
+
+            display: inline-block;
+            text-align: center;
+
+            button{
+              padding: 1em;
+              background: rgba(0, 0, 0, .3);
+              border: .1em solid #222;
+              color: #ccc;
+              @include border-radius(.7em);
+              cursor: pointer;
+
+              &:hover{
+                background: #2b92db;                
+                color: #ddd;
+              }
+
+              &:active{
+                border-color: #fff;
+                color: #fff;
+              }
+            }
+
+            table{
+              margin: 1em 0;
+
+              tr{
+                &:first-of-type{
+                  background: #222;
+                }                
+
+                td{
+                  border: 1px solid #555;
+                  padding: .3em;
+                  margin: .3em;
+
+                  min-width: 4em;
+
+                  &:first-of-type{
+                    cursor: pointer;                   
+                  }
+                  
+                  &:hover,
+                  &.checked:hover{
+                    &:first-of-type{
+                      background: #777 !important;
+                      color: #fff;
+                    }
+                  }                   
+
+                  &.checked{
+                    &:first-of-type{
+                      background: #2b92db !important;
+                      color: #fff;
+                    }
+                  }                  
+
+                  input{
+                    @include border-radius(.2em);
+
+                    width: 4em;
+                    background: rgba(255, 255, 255, .07);
+                    border: 1px solid #444;
+
+                    &.erro{
+                      border-color: red !important;
+                      background: rgba(255,0,0, 0.1) !important;                      
+                    }
+
+                    &.vazio {
+                      border-color: yellow !important;
+                      background: rgba(255,255,0, 0.1) !important;                      
+                    }                    
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        > article{
+          margin: 2em;
+          text-align: center;
+
+          div{
+            display: inline-block;
+
+            table{
+              td{
+                min-width: 4em;
+                max-width: 5em;
+                min-height: 4em;              
+
+                border: 1px solid #393939;
+
+                div{
+                  height: 4em;
+                  width: 4em;
+
+                  border: .1em solid #2b92db;
+                  padding: .5em;
+                  margin: .5em .25em;
+
+                  @include border-radius(2em);                
+                  vertical-align: middle;
+                  line-height: 2.9em;
+
+                  span{
+                    display: inline-block;
+                    line-height: norma  l;
+                  }
+
+                  &.final{
+                    &:before{
+                      position: absolute;
+                      left: .3em;
+                      top: .3em;
+                      right: .3em;
+                      bottom: .3em;
+
+                      border: .1em solid #2b92db;
+
+                      @include border-radius(2em);
+
+                      content: " ";
+                    }                                    
+                  }
+
+                  &.epson{
+                    &,&.final,&.final:before{
+                      border-style: dashed !important;
+                      border-width: .15em;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      > footer.principal{
+        margin-top: 3em;
+      }
+    }
+  }
+}

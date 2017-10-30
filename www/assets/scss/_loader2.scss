@@ -1,0 +1,72 @@
+/*
+ *  Usage:
+ *
+      <div class="sk-wandering-cubes">
+        <div class="sk-cube sk-cube1"></div>
+        <div class="sk-cube sk-cube2"></div>
+      </div>
+ *
+ */
+.sk-wandering-cubes {
+  margin: 7em auto;
+  width: 7em;
+  height: 7em;
+  position: relative;
+  background: transparent;
+}
+.sk-wandering-cubes .sk-cube {
+  background-color: yellow;
+  width: 2.5em;
+  height: 2.5em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top:-10.3em;
+  margin-left:-3em;  
+  -webkit-animation: sk-wanderingCube 1.8s ease-in-out -1.8s infinite both;
+  animation: sk-wanderingCube 1.8s ease-in-out -1.8s infinite both; }
+.sk-wandering-cubes .sk-cube2 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s; }
+
+@-webkit-keyframes sk-wanderingCube {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  25% {
+    -webkit-transform: translateX(3.75em) rotate(-90deg) scale(0.5);
+    transform: translateX(3.75em) rotate(-90deg) scale(0.5); }
+  50% {
+    /* Hack to make FF rotate in the right direction */
+    -webkit-transform: translateX(3.75em) translateY(3.75em) rotate(-179deg);
+    transform: translateX(3.75em) translateY(3.75em) rotate(-179deg); }
+  50.1% {
+    -webkit-transform: translateX(3.75em) translateY(3.75em) rotate(-180deg);
+    transform: translateX(3.75em) translateY(3.75em) rotate(-180deg); }
+  75% {
+    -webkit-transform: translateX(0) translateY(3.75em) rotate(-270deg) scale(0.5);
+    transform: translateX(0) translateY(3.75em) rotate(-270deg) scale(0.5); }
+  100% {
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg); } }
+
+@keyframes sk-wanderingCube {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  25% {
+    -webkit-transform: translateX(3.75em) rotate(-90deg) scale(0.5);
+    transform: translateX(3.75em) rotate(-90deg) scale(0.5); }
+  50% {
+    /* Hack to make FF rotate in the right direction */
+    -webkit-transform: translateX(3.75em) translateY(3.75em) rotate(-179deg);
+    transform: translateX(3.75em) translateY(3.75em) rotate(-179deg); }
+  50.1% {
+    -webkit-transform: translateX(3.75em) translateY(3.75em) rotate(-180deg);
+    transform: translateX(3.75em) translateY(3.75em) rotate(-180deg); }
+  75% {
+    -webkit-transform: translateX(0) translateY(3.75em) rotate(-270deg) scale(0.5);
+    transform: translateX(0) translateY(3.75em) rotate(-270deg) scale(0.5); }
+  100% {
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg); } }

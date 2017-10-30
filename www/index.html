@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<HTML lang="pt-BR">
+
+  <HEAD>
+    <meta charset="UTF-8">    
+    <meta name="generator" content="Scriptnalz 0.0.1, http://projetos.jeancarloem.com/Scriptnalz" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <TITLE>NFASimulator :: Simulador de Automoto Finito (Não-)Determinístico</TITLE>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>    
+    <script type="text/javascript" src="assets/js/lfa.min.js"></script>    
+    <script type="text/javascript" src="assets/js/main.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">        
+    
+  </HEAD>
+
+  <body>
+    <div class="enclausurebody enclausure pagebody">
+      <section class="sectionwrapper">
+        <a class='logo' target='_blank' href='//jeancarloem.com'></a>
+        <div class="clearfix contentwrapper no-js">          
+          <header id="mestre" class="mestre">
+            <a target='_blank' href='https://github.com/JeanCarloEM/NFASimulator' class="git fa fa-github"></a>
+          </header>
+          <header class="mid"><div><span>Simulador de Automoto Finito (Não-)Determinístico  (DFA e NDFA)</span></div></header>
+
+          <section class="principal">
+            <div>
+              <p>Este é um trabalho da disciplina "<b>Linguagens Formais e Autômatos</b>" do curso de Ciência da Computação. O Objetivo é construir um programa - utilizando qualquer linguagem - que simule um <b>Autômato Finito Determinístico e não determinístico (DFA e NDFA)</b>. Assim, este programa é capaz de determinar se uma dada string é ou não aceita por um autômato, sem uso de regex nativas. Para inserir o autômato o que se faz é a inclusão dos estados e das transições em uma tabela. Faça o teste! 
+              </p>
+
+              <p><br />O estado inicial deve sempre ser o "q0", assim, ao passar as informações, caso este não seja o estado inicial, será necessário fazer ajustes. Clique sobre a célula dos estados para habilitá-lo ou não como estado final. </p>
+            </div>
+
+            <div>
+              <div class="sigma">
+                <div class="sigmago"></div>
+                <input type="text" name="alfabeto" placeholder="Alfabeto sem espaco" />                
+              </div>
+
+              <div class="tbl" style='display: none;'>
+                <table cellpadding="0" cellspacing="0" border="0" id="estados">
+                </table>
+
+                <button>Adicionar Estado</button>
+              </div>
+
+              <div class="avaliar" style="display: none;">
+                <div class="string"></div>
+                <input type="text" name="strvalidate" placeholder="String a ser Verificada" />
+              </div>              
+            </div>                        
+
+            <div class='resultado'></div>
+
+            <article>
+
+            </article>
+          </section>
+        </div>
+      </section>
+
+      <footer class="footerwrapper">
+        <p>Copyright 2017 &copy; <a href="//jeancarloem.com">Jean Carlo EM</a>.</p>
+
+        <div class="licenca">          
+          <h2>Licença de Uso</h2>          
+          <h6>The MIT License (MIT)</h6>
+          <img src="assets/img/mit.png" />
+          <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+          <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+          <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+
+</HTML>

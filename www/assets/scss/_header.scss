@@ -1,0 +1,388 @@
+header.mestre{
+  > div.mestremenu{
+    float: right !important;
+
+    border-right: .5em solid;
+    border-color: transparent;
+
+    width: $HerderMestre*1.2;
+
+    text-align: center;
+    cursor: pointer;
+
+    &:before{
+      font: normal normal normal $HerderMestre*0.7 FontAwesome;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      content: "\f0c9";
+      color: $cor8;
+      line-height: $HerderMestre*0.45;
+    }
+    
+    &:hover{
+      &:before{
+        color: $branco;
+      }
+
+      background: $cor5;
+    }
+
+    &.open,
+    &:active{
+      &:before{
+        color: $branco;
+      }
+
+      background: $cor6;
+      border-color: $cor6;
+    }
+    
+    &.tonsdecinza{      
+      &:hover{
+        &:before{
+          color: $cor1a;
+        }
+
+        background: $cor7;
+      }
+
+      &.open,
+      &:active{
+        &:before{
+          color: $branco;
+        }
+
+        background: #000;
+        border-color: #000;
+      }      
+    } 
+    
+    &.altocontraste{
+      &:before{
+        color: #fff;
+      }
+      
+      &:hover{
+        &:before{
+          color: #000;
+        }
+
+        background: #fff;
+      }
+
+      &.open,
+      &:active{
+        &:before{
+          color: #000;
+        }
+
+        background: #fff;
+        border-color: #fff;
+      }      
+    }    
+  }
+}
+
+div.menu{
+  position: fixed;
+  right: -101%;
+  bottom: 0;
+  top: $HerderMestre;
+
+  background: $cor1;
+  
+  @include opacity(.85);
+  @include box-shadow(0, 0, 1em, $cor1);
+
+  border: .05em solid $cor5;
+  border-right: .5em solid $cor6;
+  border: 0 0 0 0;
+  border-top: none;
+  border-bottom: none;
+
+  z-index: 103;
+  max-width: 100%;
+  
+  &.altocontraste{
+    background: #000;
+    border: .1em solid #fff;
+    
+    @include opacity(1);
+  }
+
+  &.tonsdecinza{    
+    border-color: #000;
+    @include box-shadow(0, 0, 1em, #000);    
+  } 
+
+  &,&.menushow{
+    @extend .animate;
+  }
+
+  &.menushow{
+    right: 0em;
+    margin-top: -1px;
+  }
+
+  > ul{
+    list-style-type: none;
+    overflow: hidden;    
+
+    > li{
+      margin: 1% .7em;
+      white-space: nowrap;
+      display: block;
+
+      padding: .3em;
+      padding-right: 1.2em;
+      padding-left: .1em;
+
+      cursor: pointer;
+      
+      @include border-radius(.4em);
+
+      &:first-of-type{
+        margin-top: .5em;
+      }
+
+      &:last-of-type{
+        margin-bottom: .5em;
+      }
+
+      &.separador{
+        margin-bottom: 6%;
+
+        &:after{
+          content: " ";
+          display: block;
+          position: absolute;
+          height: .07em;
+          background: $cor7;
+          left: -.4em;
+          right: -.4em;
+          top: 115%;
+        }
+
+        &:last-of-type{
+          &:after{
+            display: none !important;
+          }
+        }
+        
+        &.altocontraste:after{
+          background: #fff;
+        }
+      }
+
+      &:before{
+        float: left;
+        margin-left: .4em;
+        font: normal normal normal 1.7em FontAwesome;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: $cor6;
+        line-height: $HerderMestre*0.45;
+        width: 1.1em;
+        text-align: center;
+      }
+      
+      &.altocontraste:before{
+        color: #fff;
+      }
+      
+      &.tonsdecinza:before{
+        color: #bbb;
+      }      
+      
+      &.showdispos{
+        &:before{
+          content: "\f1eb";
+        }
+      }     
+
+      &.ex_normal{
+        &:before{
+          content: "\f043";
+        }
+      }
+      
+      &.ex_tonsclaros{
+        &:before{
+          content: "\f0eb";
+        }
+      }
+      
+
+      &.ex_tonsdecinza{
+        &:before{
+          content: "\f24e";
+        }
+      }
+
+      &.ex_altocontraste{
+        &:before{
+          content: "\f042";
+        }
+      }
+
+      &.config{
+        &:before{
+          content: "\f013";
+        }
+      }
+      
+      &.passset{
+        &:before{
+          content: "\f084";
+        }
+      }      
+
+      &.sobre{
+        &:before{
+          content: "\f05a";
+        }
+      }
+
+      > div{
+        margin-left: 4em;
+        line-height: 2.5em;
+        vertical-align: middle;
+
+        @include clearfix;
+
+        &:before{
+          display: block;
+          float: right;
+
+          margin-left: 1.3em;
+          width: 1.1em;
+          text-align: center;
+
+          text-rendering: auto;
+          font: normal normal normal 1.7em FontAwesome;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          color: $cor8;
+          line-height: $HerderMestre*0.45;
+          content: " ";
+        }
+
+        > span{
+          display: inline-block;
+          white-space: nowrap;
+          line-height: normal;
+        }
+        
+        &.altocontraste:before{
+          color: #fff;
+        }
+      }
+
+      &.checked.checkbox{
+        > div{
+          &:before{
+            content: "\f046";
+          }
+        }
+      }
+
+      &.radiobox{
+        > div{
+          &:before{            
+          }
+        }
+                
+        &.checked{
+          > div{
+            &:before{
+              content: "\f192";
+            }
+          }
+        }
+      }
+      
+      &.interruptor{
+        > div{
+          &:before{
+            content: "\f204";
+          }
+        }
+
+        &.on{
+          > div{
+            &:before{
+              content: "\f205";
+              color: $cor3;
+            }
+            
+            &.altocontraste:before{
+              color: #fff;
+            }
+
+            &.tonsdecinza:before{
+              color: $cor8;
+            }            
+          }          
+        }        
+      }
+
+      &,*,&:before{
+        vertical-align: middle;
+      }
+      
+      &:hover{
+        background: $cor5;
+
+        &,*,&:before,*:before{
+          color: $cor1 !important;
+        }
+      }
+
+      &:active{
+        background: $cor6;
+
+        &,*,&:before,*:before{
+          color: $branco !important;
+        }
+      }      
+        
+      &.tonsdecinza{
+        &:hover{
+          background: $cor7a;
+
+          &,*,&:before,*:before{
+            color: $cor0 !important;
+          }
+        }
+
+        &:active{
+          background: $cor7;
+
+          &,*,&:before,*:before{
+            color: $branco !important;
+          }
+        }
+      }
+      
+      &.altocontraste{
+        &:hover{
+          background: #fff;
+
+          &,*,&:before,*:before{
+            color: #000 !important;
+          }
+        }
+
+        &:active{
+          background: #fff;
+
+          &,*,&:before,*:before{
+            color: #000 !important;
+          }
+        }
+      }
+    }
+  }
+}
