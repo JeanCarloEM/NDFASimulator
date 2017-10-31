@@ -37,10 +37,10 @@
     var tbl = $("#passos tr");
 
     if ((!tbl) || (tbl.length <= 0)) {
-      if ((!$("article")) || ($("article").length <= 0)){
+      if ((!$("article")) || ($("article").length <= 0)) {
         throw "ARTICLE NADA AINDA";
       }
-      
+
       $("article").append("<div><table id='passos' cellpadding='0' cellspacing='0'><tr></tr><tr></tr></table></div>");
       tbl = $("#passos tr");
     }
@@ -48,18 +48,18 @@
     /* EVENTO DE ADICAO INDIVIDUAL */
     if ((evento >= 0) && (evento <= 3)) {
       if ($("#passos tr:last-of-type td").length <= stepAtual) {
-        tbl.append("<td id='td_" + stepAtual + "'></td>");        
+        tbl.append("<td id='td_" + stepAtual + "'></td>");
       }
-      
-      if ((typeof chr === "string") && (chr.length > 0) && (!$("#passos tr:first-of-type td#td_" + (stepAtual - 1)).html())){
-        
+
+      if ((typeof chr === "string") && (chr.length > 0) && (!$("#passos tr:first-of-type td#td_" + (stepAtual - 1)).html())) {
+
         $("#passos tr:first-of-type td#td_" + (stepAtual - 1)).html(chr);
       }
-      
-      if ((evento === 0) || (evento === 2)){
+
+      if ((evento === 0) || (evento === 2)) {
         if ((destino !== null) && (destino >= 0) && ($("#passos tr td:last-of-type div.q" + destino).length <= 0)) {
-          var coluna = $("#passos tr:last-of-type td#td_" + stepAtual);          
-          coluna.append("<div class='" + ((evento === 0) ? " epson" : "") + (((window.lfacalc.dts.finais.indexOf(destino) >= 0)||final) ? " final" : "") + " q" + destino + "'><span>q" + destino + "</span></div>");
+          var coluna = $("#passos tr:last-of-type td#td_" + stepAtual);
+          coluna.append("<div class='" + ((evento === 0) ? " epson" : "") + (((window.lfacalc.dts.finais.indexOf(destino) >= 0) || final) ? " final" : "") + " q" + destino + "'><span>q" + destino + "</span></div>");
         }
       }
     }
@@ -169,7 +169,7 @@
           var id = $.trim($("#estados tr:first-of-type td").eq(i + 1).text());
           id = (id == "ε") ? "__" : id;
 
-          tr1 += "<td><input name='q" + ($("#estados tr").length - 1) + "_" + id + "' type='text' class='destinos' regex='^\s?([0-9]|\\[\s?[0-9](\s?\,\s?[0-9])*\s?])?\s?$'></input></td>";
+          tr1 += "<td><input name='q" + ($("#estados tr").length - 1) + "_" + id + "' type='tel' class='destinos' regex='^(\s*[0-9](\s*[,\.\-]\s?[0-9])*\s*)?$'></input></td>";
         }
 
         $("#estados").append("<tr class='estados q" + ($("#estados tr").length - 1) + "' st='" + ($("#estados tr").length - 1) + "'><td class=\"estado\" st='" + ($("#estados tr").length - 1) + "'>q" + ($("#estados tr").length - 1) + "</td>" + tr1 + "</tr>");
@@ -241,15 +241,15 @@
             var st = [];
 
             for (var j = 0; j < json.abto.length; j++) {
-              var vl = $("#estados tr td input[name='q" + q + "_" + ((json.abto[j]===null)?"__":json.abto[j]) + "']").val();
-              st.push(vl);
+              var vl = $("#estados tr td input[name='q" + q + "_" + ((json.abto[j] === null) ? "__" : json.abto[j]) + "']").val();
+              st.push("" + vl);
             }
 
             json.destinos.push(st);
           }
-          
-          if (json.start >= json.destinos.length){
-            alert("[ERRO] o Estado Inicial selecionado ("+json.start+") é superior ao estado maior ("+(json.destinos.length-1)+")");
+
+          if (json.start >= json.destinos.length) {
+            alert("[ERRO] o Estado Inicial selecionado (" + json.start + ") é superior ao estado maior (" + (json.destinos.length - 1) + ")");
             return 0;
           }
 

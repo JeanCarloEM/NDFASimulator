@@ -185,11 +185,11 @@
         }else {
           xlog("Inicializando");
           dts.start = ((""+dts.start).length <= 0) ? 0 : parseInt(dts.start);
-          
+
           if (dts.start >= dts.destinos.length){
             throw "[ERRO] o Estado Inicial selecionado ("+dts.start+") é superior ao estado amior ("+(dts.destinos.length-1)+")";
           }
-          
+
           dts.steps = [[dts.start]];
 
           if (typeof callback === "function"){
@@ -226,37 +226,34 @@
 
         return dts;
       };
-      
+
       function iniciaDestinos(dts){
-        var rg = /^\s?([0-9]|\[\s?[0-9](\s?\,\s?[0-9])*\s?])?\s?$/;
-        
+        var rg = /^(\s*[0-9](\s*[,\.\-]\s?[0-9])*\s*)?$/;
+
         for (var i = 0; i < dts.destinos.length; i++){
           for (var j = 0; j < dts.destinos[i].length; j++){
-            var d = (""+dts.destinos[i][j]);
-            
+            var d = (""+dts.destinos[i][j].replace(/[^0-9,\.\-]/g, ''));
+
             if (!rg.test(d)){
-              console.log(dts.destinos);
               throw "[ERRO] O estado q"+i+" possui uma transicao ["+j+"] cujo destino nao é aceito '"+d+"'.";
             }
-            
+
             if (d.length > 0){
-              /* TRIM */
-              d = d.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');              
-              d =  (/^[0-9]$/.test(d)) ? parseInt(d) : JSON.parse(d);              
+              d =  (/^[0-9]$/.test(d)) ? parseInt(d) : JSON.parse("["+d.replace(/[\.\-]/g, ',')+"]");
             }else{
               d = null;
             }
-            
+
             dts.destinos[i][j] = d;
           }
         }
-        
+
         return dts;
       };
 
       /* INICIALIZANDO PARAMETROS */
       str       = ((typeof str === "string") && (str.length > 0)) ? str : dtsOuStr;
-      this.dts  = processStep(null, iniciaDestinos((typeof dtsOuStr === "object") ? dtsOuStr : this.dts), (callback));                  
+      this.dts  = processStep(null, iniciaDestinos((typeof dtsOuStr === "object") ? dtsOuStr : this.dts), (callback));
 
       /* POR PADRAO CONSIDERA QUE NAO HAVERA DIGITOS INVALIDOS */
       var invalidDigit = false;
