@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Jean Carlo de Elias Moreira.
@@ -29,34 +29,39 @@
  * @author     Jean Carlo de Elias Moreira | https://www.jeancarloem.com
  * @license    MIT | https://opensource.org/licenses/MIT
  * @copyright  © 2017 Jean Carlo EM
- * @link       https://opensource.jeancarloem.com/NFASimulator/ 
+ * @link       https://opensource.jeancarloem.com/NFASimulator/
  */
 
 (function (window, $) {
-  window.updateTbl = function (chr, stepAtual, iterador, newStep, destino, evento) {
+  window.updateTbl = function (chr, stepAtual, iterador, newStep, destino, final, evento) {
     var tbl = $("#passos tr");
 
     if ((!tbl) || (tbl.length <= 0)) {
-      if ((!$("article")) || ($("article").length <= 0))
+      if ((!$("article")) || ($("article").length <= 0)){
         throw "ARTICLE NADA AINDA";
+      }
+      
       $("article").append("<div><table id='passos' cellpadding='0' cellspacing='0'><tr></tr><tr></tr></table></div>");
       tbl = $("#passos tr");
     }
 
     /* EVENTO DE ADICAO INDIVIDUAL */
-    if ((evento === 0) || (evento === 2)) {
+    if ((evento >= 0) && (evento <= 3)) {
       if ($("#passos tr:last-of-type td").length <= stepAtual) {
-        tbl.append("<td id='td_" + stepAtual + "'>");
+        tbl.append("<td id='td_" + stepAtual + "'></td>");        
       }
-
-      if ($("#passos tr td:last-of-type div.q" + destino).length <= 0) {
-        var coluna = $("#passos tr:last-of-type td#td_" + stepAtual);
-        coluna.append("<div class='" + ((evento === 0) ? " epson" : "") + ((window.lfacalc.dts.finais.indexOf(destino) >= 0) ? " final" : "") + " q" + destino + "'><span>q" + destino + "</span></div>");
+      
+      if ((typeof chr === "string") && (chr.length > 0) && (!$("#passos tr:first-of-type td#td_" + (stepAtual - 1)).html())){
+        
+        $("#passos tr:first-of-type td#td_" + (stepAtual - 1)).html(chr);
       }
-    }
-
-    if ((evento === 3) && (!$("#passos tr:first-of-type td#td_" + (stepAtual - 1)).html())) {
-      $("#passos tr:first-of-type td#td_" + (stepAtual - 1)).html(chr);
+      
+      if ((evento === 0) || (evento === 2)){
+        if ((destino !== null) && (destino >= 0) && ($("#passos tr td:last-of-type div.q" + destino).length <= 0)) {
+          var coluna = $("#passos tr:last-of-type td#td_" + stepAtual);          
+          coluna.append("<div class='" + ((evento === 0) ? " epson" : "") + (((window.lfacalc.dts.finais.indexOf(destino) >= 0)||final) ? " final" : "") + " q" + destino + "'><span>q" + destino + "</span></div>");
+        }
+      }
     }
   };
 
@@ -161,7 +166,10 @@
         var tr1 = "";
 
         for (var i = 0; i < inp.val().length; i++) {
-          tr1 += "<td><input name='q" + ($("#estados tr").length - 1) + "_" + ($.trim($("#estados tr:first-of-type td").eq(i + 1).text())) + "' type='text' class='destinos' regex='^\s?([0-9]|\\[\s?[0-9](\s?\,\s?[0-9])*\s?])?\s?$'></input></td>";
+          var id = $.trim($("#estados tr:first-of-type td").eq(i + 1).text());
+          id = (id == "ε") ? "__" : id;
+
+          tr1 += "<td><input name='q" + ($("#estados tr").length - 1) + "_" + id + "' type='text' class='destinos' regex='^\s?([0-9]|\\[\s?[0-9](\s?\,\s?[0-9])*\s?])?\s?$'></input></td>";
         }
 
         $("#estados").append("<tr class='estados q" + ($("#estados tr").length - 1) + "' st='" + ($("#estados tr").length - 1) + "'><td class=\"estado\" st='" + ($("#estados tr").length - 1) + "'>q" + ($("#estados tr").length - 1) + "</td>" + tr1 + "</tr>");
@@ -201,7 +209,7 @@
           var json = {
             abto: ($("section.principal div.sigma input").val().split('')),
             destinos: [],
-            start: 0,
+            start: $("section.principal div.starterq input").val(),
             finais: [],
             steps: [[]]
           };
@@ -231,11 +239,18 @@
           for (var i = 0; i < trs.length; i++) {
             var q = $(trs[i]).attr("st");
             var st = [];
+
             for (var j = 0; j < json.abto.length; j++) {
-              var vl = $("#estados tr td input[name='q" + q + "_" + json.abto[j] + "']").val();
-              st.push(!vl ? null : (parseInt(vl)));
+              var vl = $("#estados tr td input[name='q" + q + "_" + ((json.abto[j]===null)?"__":json.abto[j]) + "']").val();
+              st.push(vl);
             }
+
             json.destinos.push(st);
+          }
+          
+          if (json.start >= json.destinos.length){
+            alert("[ERRO] o Estado Inicial selecionado ("+json.start+") é superior ao estado maior ("+(json.destinos.length-1)+")");
+            return 0;
           }
 
           if (!window.lfacalc) {
@@ -244,9 +259,9 @@
 
           $("article").html(" ");
           if (window.lfacalc.match(json, $("section.principal div.avaliar input").val(), window.updateTbl)) {
-            $("div.resultado").html("O Automoto reconhece a string. String aceita!");
+            $("div.resultado").html("O Autômato reconhece a string. String aceita!");
           } else {
-            $("div.resultado").html("O Automoto NÃO reconhece a string. String rejeitada!");
+            $("div.resultado").html("O Autômato NÃO reconhece a string. String rejeitada!");
           }
         } else {
           alert("O estados destinos não estão preenchidos corretamente!");

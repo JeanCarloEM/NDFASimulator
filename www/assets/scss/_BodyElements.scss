@@ -41,7 +41,7 @@ p{
 a{
   text-decoration: none;
   background: none;
-  color:#ddd;
+  color: #fff;
 
   &:after{  
     display: inline-block;
@@ -52,17 +52,17 @@ a{
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;                
     
-    content: "\f14c";
+    content: "\f08e";
     color: #aaa;
     margin-left: .4em;    
   }
   
   &:visited{
-    color: #ccc;
+    color: #ddd;
   }    
 
   &:active{
-    color: #fff;
+    color: yellow;
   }
 
   &:hover,&:active{

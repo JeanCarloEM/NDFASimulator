@@ -4,13 +4,13 @@
 
 .pagebody{
   > .sectionwrapper{
-    min-height: 100%;    
+    min-height: 100%;
 
     .contentwrapper{
     }
   }
   sectionwrapper >.pushwrapper,
-  > footer.footerwrapper{        
+  > footer.footerwrapper{
   }
 
   > footer.footerwrapper{
@@ -33,10 +33,10 @@
         float: right;
         height: 10em;
         width: auto;
-        text-align: center;      
+        text-align: center;
         margin-left: 1em;
         margin-bottom: 1em;
-      }      
+      }
     }
   }
 }
@@ -66,7 +66,7 @@
         display: none;
         content: "" !important;
       }
-    }    
+    }
     .contentwrapper{
       > header{
         position: fixed;
@@ -109,7 +109,7 @@
           a.git{
             float: right;
             margin-right: .1em;
-            font-size: 3em; 
+            font-size: 3em;
             cursor: pointer;
             color: #ccc;
             text-decoration: none !important;
@@ -163,30 +163,26 @@
         }
       }
 
-      > section.principal{        
+      > section.principal{
         @extend .animate;
-        @extend .clearfix;       
+        @extend .clearfix;
 
-        margin-top: $HerderMestre + $HerderMid;        
+        margin-top: $HerderMestre + $HerderMid;
 
         > div{
           margin: 1em;
           padding: 1em;
           text-align: center;
 
-          > div.avaliar,
-          > div.sigma{
-            display: block;
-            white-space: nowrap;
-
-            > input[type='text']{
-              z-index: 1;              
-              width: 100%;             
+          > div{
+            input.main[type='text']{
+              z-index: 1;
+              width: 100%;
               @include border-radius(.5em);
-              @include box-shadow(0, 0, .5em, .1em, #000);             
+              @include box-shadow(0, 0, .5em, .1em, #000);
 
               line-height: 1.5em;
-              padding: .5em 3em;   
+              padding: .5em 3em;
               padding-bottom: .4em;
 
               border: .1em solid #222;
@@ -196,13 +192,13 @@
               &,&:focus{
                 background-size: 1.5em auto !important;
                 background-position: .5em center !important;
-              }                            
+              }
 
               &:focus{
-                background: #eee url('../img/sigma.svg') no-repeat;                               
+                background: #eee url('../img/sigma.svg') no-repeat;
                 border-color: #2b92db;
                 color: #000;
-              }                
+              }
 
               ::-webkit-input-placeholde,
               :-moz-placeholder,
@@ -210,12 +206,18 @@
                 :-ms-input-placeholder,
                 ::-ms-input-placeholder{
                 color: red;
-              }           
-            }            
+              }
+            }
+          }
+
+          > div.avaliar,
+          > div.sigma{
+            display: block;
+            white-space: nowrap;
 
             > div{
               margin-right: .5em;
-              margin-top: .25em; 
+              margin-top: .25em;
 
               z-index: 2;
               line-height: 2em;
@@ -233,7 +235,7 @@
               @include border-radius(.5em);
 
               &:after{
-                text-align: center;                
+                text-align: center;
                 line-height: normal;
                 vertical-align: middle;
                 display: block;
@@ -244,7 +246,7 @@
                 -moz-osx-font-smoothing: grayscale;
                 color: #2b92db;
                 vertical-align: middle;
-                content: "\f045";              
+                content: "\f045";
               }
 
               &:hover{
@@ -262,11 +264,15 @@
                 &:after{
                   color: #fff;
                 }
-              }                           
+              }
             }
           }
 
           > div.avaliar{
+            > input{
+              background: #ccc url('../img/str.svg') no-repeat !important;
+            }
+
             div{
               span{
                 display: inline-block;
@@ -283,85 +289,103 @@
 
               &:active span{
                 color: #fff;
-              }              
+              }
             }
           }
 
           div.tbl{
             margin: 1em 0;
 
-            display: inline-block;
+            display: block;
             text-align: center;
 
-            button{
-              padding: 1em;
-              background: rgba(0, 0, 0, .3);
-              border: .1em solid #222;
-              color: #ccc;
-              @include border-radius(.7em);
-              cursor: pointer;
+            > div{
+              display: inline-block;
 
-              &:hover{
-                background: #2b92db;                
-                color: #ddd;
+              &.starterq{
+                display: block;
+
+                input{
+                  background: #ccc url('../img/q0.svg') no-repeat;
+                }
               }
 
-              &:active{
-                border-color: #fff;
-                color: #fff;
+              button{
+                padding: 1em;
+                background: rgba(0, 0, 0, .3);
+                border: .1em solid #222;
+                color: #ccc;
+                @include border-radius(.7em);
+                cursor: pointer;
+
+                &:hover{
+                  background: #2b92db;
+                  color: #ddd;
+                }
+
+                &:active{
+                  border-color: #fff;
+                  color: #fff;
+                }
               }
-            }
 
-            table{
-              margin: 1em 0;
+              table{
+                margin: 1em 0;
 
-              tr{
-                &:first-of-type{
-                  background: #222;
-                }                
-
-                td{
-                  border: 1px solid #555;
-                  padding: .3em;
-                  margin: .3em;
-
-                  min-width: 4em;
-
+                tr{
                   &:first-of-type{
-                    cursor: pointer;                   
+                    background: #222;
                   }
-                  
-                  &:hover,
-                  &.checked:hover{
+
+                  td{
+                    border: 1px solid #555;
+                    padding: .3em;
+                    margin: .3em;
+
+                    min-width: 4em;
+
                     &:first-of-type{
-                      background: #777 !important;
-                      color: #fff;
-                    }
-                  }                   
-
-                  &.checked{
-                    &:first-of-type{
-                      background: #2b92db !important;
-                      color: #fff;
-                    }
-                  }                  
-
-                  input{
-                    @include border-radius(.2em);
-
-                    width: 4em;
-                    background: rgba(255, 255, 255, .07);
-                    border: 1px solid #444;
-
-                    &.erro{
-                      border-color: red !important;
-                      background: rgba(255,0,0, 0.1) !important;                      
+                      cursor: pointer;
                     }
 
-                    &.vazio {
-                      border-color: yellow !important;
-                      background: rgba(255,255,0, 0.1) !important;                      
-                    }                    
+                    &:hover{                    
+                      &:first-of-type{
+                        background: #777 !important;
+                        color: #fff;
+                      }
+                    }
+                    
+                    &.checked:hover{
+                      &:first-of-type{
+                        background: #4CC2E4 !important;
+                        color: #000;
+                      }                      
+                    }
+
+                    &.checked{
+                      &:first-of-type{
+                        background: #2b92db !important;
+                        color: #fff;
+                      }
+                    }
+
+                    input{
+                      @include border-radius(.2em);
+
+                      width: 4em;
+                      background: rgba(255, 255, 255, .07);
+                      border: 1px solid #444;
+
+                      &.erro{
+                        border-color: red !important;
+                        background: rgba(255,0,0, 0.1) !important;
+                      }
+
+                      &.vazio {
+                        border-color: yellow !important;
+                        background: rgba(255,255,0, 0.1) !important;
+                      }
+                    }
                   }
                 }
               }
@@ -370,17 +394,60 @@
         }
 
         > article{
-          margin: 2em;
+          margin: 1em;
           text-align: center;
+          overflow-x: auto;
+          max-width: 100%;          
 
           div{
             display: inline-block;
 
             table{
+              margin-bottom: 1em;
+              
+              tr:first-of-type{
+                > td{
+                  height: 5em;
+                  color: #eee;
+                  font-weight: bold;
+                  background: rgba(0, 0, 0, 0.1);
+
+                  &:after,
+                  &:before{
+                    position: absolute;
+                    right: .1em;
+
+                    text-align: center;
+                    display: block;
+
+                    font: normal normal normal 1.4em FontAwesome;
+                    text-rendering: auto;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    color: #454545;
+                    vertical-align: middle;
+                    content: "\f063";
+                  }
+
+                  &:before{
+                    left: .1em;
+                    top: .1em;
+                  }
+
+                  &:after{
+                    -webkit-transform: rotate(-45deg);
+                    -moz-transform: rotate(-45deg);
+                    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=-5); /*for IE*/
+
+                    bottom: .1em;
+                  }
+                }
+              }
+
               td{
                 min-width: 4em;
                 max-width: 5em;
-                min-height: 4em;              
+                min-height: 4em;
 
                 border: 1px solid #393939;
 
@@ -392,7 +459,7 @@
                   padding: .5em;
                   margin: .5em .25em;
 
-                  @include border-radius(2em);                
+                  @include border-radius(2em);
                   vertical-align: middle;
                   line-height: 2.9em;
 
@@ -414,7 +481,7 @@
                       @include border-radius(2em);
 
                       content: " ";
-                    }                                    
+                    }
                   }
 
                   &.epson{

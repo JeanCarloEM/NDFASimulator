@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Jean Carlo de Elias Moreira.
@@ -29,7 +29,7 @@
  * @author     Jean Carlo de Elias Moreira | https://www.jeancarloem.com
  * @license    MIT | https://opensource.org/licenses/MIT
  * @copyright  © 2017 Jean Carlo EM
- * @link       https://opensource.jeancarloem.com/NFASimulator/ 
+ * @link       https://opensource.jeancarloem.com/NFASimulator/
  */
 
 (function (window, $, xlog) {
@@ -56,34 +56,71 @@
 
     this.match = function(dtsOuStr, str, callback){
       /*
-       * PERCORRE A COLUNA (PASSO) ATUAL E, PARA CADA STADO QUE HOUVE UMA
-       * TRANSICAO EPSON, ADICIONA O ESTADO DESTINO NA COLUNA (PASSO) ATUAL
+       * ADICIONA UM ESTADO A UMA COLUNA (ST)
+       * APENAS SE ELE JAH NAO TIVER SIDO INCLUIDO
        */
-      function expandEpsilon(dts, callback){
-        var epsilonIndex = dts.abto.indexOf(null);
+      function addST(dts, st, index, callback){
+        /*
+         * ADICIONA UM ESTADO (NUMERO) AO PASSO CUJO INDICE EH "INDEX"
+         * APENAS SE ELE JAH NAO TIVER SIDO INCLUIDO
+         */
+        function add(dts, st, index, callback){
+          if ((st !== null) && (typeof st === "number") && (st >= 0) && (dts.steps[index].indexOf(st) < 0)){
+            dts.steps[index].push(st);
 
-        if (epsilonIndex > 0){
-          var stepAtual = dts.steps.length-1;
-
-          for (var i = 0; i < dts.steps[stepAtual].length; i++){            
-            var estado = dts.steps[stepAtual][i];
-
-            var destino = dts.destinos[estado][epsilonIndex];
-
-            /* SE HOUVE UM DESTINO VÁLIDO */
-            if (destino){
-              xlog("@ EXPANDINDO EPSILONS:");              
-              dts.steps[stepAtual].push(destino);
-
-              if (typeof callback === "function"){
-                callback(null, stepAtual, i, null, destino, 0);
-              }
+            if (typeof callback === "function"){
+              callback(st, index);
             }
+          }
+
+          return dts;
+        };
+
+        if (st !== null){
+          if ((Array.isArray(st)) && (st.length > 0)){
+            for (var i = 0; i < st.length; i++){
+              dts = add(dts, st[i], index, callback);
+            }
+
+          }else{
+            dts = add(dts, st, index, callback);
           }
         }
 
         return dts;
-      }
+      };
+
+      /*
+       * PERCORRE A COLUNA (PASSO) ATUAL E, PARA CADA STADO QUE HOUVE UMA
+       * TRANSICAO EPSON, ADICIONA O ESTADO DESTINO NA COLUNA (PASSO) ATUAL
+       */
+      function expandEpsilon(dts, callback){
+        function callEp(st, index){
+          callback(null, index, i, null, destino, (dts.finais.indexOf(destino)>=0), 0);
+        }
+
+        /* VERIFICA SE EXISTE NO ALFABETO O UPSILON */
+        var epsilonIndex = dts.abto.indexOf(null);
+
+        if (epsilonIndex >= 0){
+          /* OBTEM A ULTIMA ETAPA PARA O EXPANDIR */
+          var stepAtual = dts.steps.length-1;
+
+          for (var i = 0; i < dts.steps[stepAtual].length; i++){
+            /* UM ESTADO A SER EXPANDIDO */
+            var estado = dts.steps[stepAtual][i];
+
+            /* OBTEM O DESTINO DA TRANSICAO UPSILON */
+            var destino = dts.destinos[estado][epsilonIndex];
+
+            /* SE HOUVER UM DESTINO VÁLIDO */
+            xlog("@ EXPANDINDO EPSILONS:");
+            dts = addST(dts, destino, stepAtual, callEp);
+          }
+        }
+
+        return dts;
+      };
 
       /*
        * 1. CRIA UMA NOVA COLUNA (PASSO)
@@ -95,39 +132,46 @@
        * REALIZADO POR "expandEpsilon"
        */
       function processStep(chr, dts, callback){
-        if (chr){
-          var chrIndex = dts.abto.indexOf(chr);          
+        /* CALBACK DE RETORNO PARA DESTINO UNICO */
+        function callbAdd(st, index){
+          xlog("  - ADDED: q" + st);
+
+          if (typeof callback === "function"){
+             callback(chr, index, null, null, st, (dts.finais.indexOf(destino)>=0), 2);
+          }
+        };
+
+        /* CALBACK DE RETORNO PARA DESTINO MULTIPLO */
+        function callbAddMulti(st, index){
+          xlog("  - ADDED-MULTI: q" + st);
+
+          if (typeof callback === "function"){
+             callback(chr, index, null, null, st, (dts.finais.indexOf(destino)>=0), 2);
+          }
+        };
+
+        /* SE DIGITO FOR VALIDO ENTAO PROCESSA-LO */
+        if ((chr!==null)&&(typeof chr === "string")&&(chr.length>0)){
+          /* OBTEM O INDICE DA TRANSICAO NO ALFABETO */
+          var chrIndex = dts.abto.indexOf(chr);
 
           if (chrIndex >= 0){
             var stepAtual = dts.steps.length-1;
-            var newStep = [];
-            xlog("PASSO =========== " + stepAtual + " || Digito: " + chr);
-            for (var i = 0; i < dts.steps[stepAtual].length; i++){              
+
+            dts.steps.push([]);
+            var newStep = stepAtual + 1;
+
+            xlog("PASSO =========== Atual: " + stepAtual + ", Novo: " + newStep + "  || Digito: " + chr);
+            for (var i = 0; i < dts.steps[stepAtual].length; i++){
               var estado = dts.steps[stepAtual][i];
               xlog("# ORIGEM: q" + estado);
-              var destino = dts.destinos[estado][chrIndex];
 
-              if (typeof estado === "number"){
-                if (Array.isArray(destino)){
-                  for (g = 0; g < destino.length; g++){
-                    xlog("  - ADDED-MULTI: q" + destino[g]);
-                    if ((typeof destino[g] === "number") && (destino[g] >= 0)){
-                      newStep.push(destino[g]);
-                    }else{
-                      throw "[ERRO] Destino Invalido.";
-                    }
+              if ((estado !== null) && (typeof estado === "number") && (estado >= 0)){
+                /* OBTEM O DESTINO DA TRASICAO (chr) DESTE ESTADO */
+                var destino = dts.destinos[estado][chrIndex];
 
-                    if (typeof callback === "function"){
-                      callback(chr, stepAtual+1, i, newStep, destino[g], 2);
-                    }
-                  }
-                }else if ((typeof destino === "number") && (destino >= 0)){
-                  xlog("  - ADDED: q" + destino);
-                  newStep.push(destino);
-
-                  if (typeof callback === "function"){
-                    callback(chr, stepAtual+1, i, newStep, destino, 2);
-                  }
+                if (destino !== null){
+                  dts = addST(dts, destino, newStep, ((Array.isArray(destino))?callbAddMulti:callbAdd));
                 }
               }else{
                 xlog(dts.steps);
@@ -136,76 +180,142 @@
                 throw "[ERRO] Estado invalido presente na sequencia.";
               }
             }
-
-            if (newStep.length > 0){
-              dts.steps.push(newStep);
-            }
           }
+        /* SE DIGITO FOR INVALIDO INICIALIZA */
         }else {
           xlog("Inicializando");
+          dts.start = ((""+dts.start).length <= 0) ? 0 : parseInt(dts.start);
+          
+          if (dts.start >= dts.destinos.length){
+            throw "[ERRO] o Estado Inicial selecionado ("+dts.start+") é superior ao estado amior ("+(dts.destinos.length-1)+")";
+          }
+          
           dts.steps = [[dts.start]];
 
           if (typeof callback === "function"){
-            callback(str[0], 0, null, null, dts.start, 2);
+             callback(null, 0, null, null, dts.start, (dts.finais.indexOf(dts.start)>=0), 2);
           }
         }
 
         return dts;
-      }
+      };
 
-      function processEpsilons(char, dts, callback){
+      /*
+       * PROCESSAMOS OS EPSILONS
+       */
+      function processEpsilons(c, dts, callback){
         /* EXPAND OS EPSON */
         dts = expandEpsilon(dts, (callback));
 
         if (typeof callback === "function"){
-          callback(char, dts.steps.length-1, i, null, null, 1);
+          callback(c, dts.steps.length-1, i, null, null, null, 1);
         }
 
         return dts;
-      }
+      };
 
-      function processChars(char, dts, callback){
-        this.dts = processStep(char, dts, callback);
-
+      /*
+       * PROCESSAMOS O CARACTERE C, DOS DADOS "DTS" CHAMANDO CALLBACK
+       * PARA O PROCESSAMENTO
+       */
+      function processChars(c, dts, callback){
+        this.dts = processStep(c, dts, callback);
         if (typeof callback === "function"){
-          callback(str[i], dts.steps.length-1, i, null, null, 3);
+          callback(c, dts.steps.length-1, i, null, null, null, 3);
         }
 
         return dts;
-      }
+      };
+      
+      function iniciaDestinos(dts){
+        var rg = /^\s?([0-9]|\[\s?[0-9](\s?\,\s?[0-9])*\s?])?\s?$/;
+        
+        for (var i = 0; i < dts.destinos.length; i++){
+          for (var j = 0; j < dts.destinos[i].length; j++){
+            var d = (""+dts.destinos[i][j]);
+            
+            if (!rg.test(d)){
+              console.log(dts.destinos);
+              throw "[ERRO] O estado q"+i+" possui uma transicao ["+j+"] cujo destino nao é aceito '"+d+"'.";
+            }
+            
+            if (d.length > 0){
+              /* TRIM */
+              d = d.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');              
+              d =  (/^[0-9]$/.test(d)) ? parseInt(d) : JSON.parse(d);              
+            }else{
+              d = null;
+            }
+            
+            dts.destinos[i][j] = d;
+          }
+        }
+        
+        return dts;
+      };
 
+      /* INICIALIZANDO PARAMETROS */
       str       = ((typeof str === "string") && (str.length > 0)) ? str : dtsOuStr;
-      this.dts  = processStep(null, (typeof dtsOuStr === "object") ? dtsOuStr : this.dts, (callback));
-      xlog(str);
+      this.dts  = processStep(null, iniciaDestinos((typeof dtsOuStr === "object") ? dtsOuStr : this.dts), (callback));                  
 
+      /* POR PADRAO CONSIDERA QUE NAO HAVERA DIGITOS INVALIDOS */
+      var invalidDigit = false;
+
+      /*
+       * PERCORREMOS A STRING DIGITO POR DIGITO
+       */
       for (var i = 0; i < str.length; i++) {
-        /* EXPAND OS Epsilon */
+        /* EXPAND OS Epsilon DO PASSO ATUAL, ANTES DE PROCESSAR AS TRANSICOES */
         this.dts =  processEpsilons(str[i], this.dts, callback);
 
-        /* PROCESSANDO CARACTERE */
-        this.dts =  processChars(str[i], this.dts, callback);
-      }
+        /*
+         * SE O DIGITO A SER ANALISADO NAO FOR UM DIGITO VALIDO NO ALFABETO
+         * SIGMA ENTAO ABORDAMOS
+         */
+        if (this.dts.abto.indexOf(str[i]) < 0){
+          invalidDigit = true;
 
-      /* EXPANCAO FINAL DOS Epsilon */
-      this.dts =  processEpsilons(str[i], this.dts, callback);
-      
-      var final = false;
-      for (var i = 0; i < this.dts.finais.length; i++){
-        if (this.dts.steps[this.dts.steps.length-1].indexOf(this.dts.finais[i]) >= 0){
-          final = true;
+          /* AQUI CRIAMOS O PROXIMO PASSO, QUE SERAH VAZIO, JAH QUE ABORTAMOS */
+          this.dts.steps.push([]);
 
           break;
+        }else{
+          /* PROCESSANDO CARACTERE */
+          this.dts =  processChars(str[i], this.dts, callback);
         }
       }
-      
+
+      /* EXPANCAO FINAL DOS Epsilon
+       * NECESSARIO, UMA VEZ QUE UMA DAS ESPANCOES PODE SER FINAL
+       */
+      this.dts =  processEpsilons(str[i], this.dts, callback);
+
+      /*
+       * SE NAO HOUVE DIGITO INVALIDO VERIFICAMOS SE HA ALGUM ESTADO FINAL
+       * NO PASSO FINAL
+       */
+      if (!invalidDigit){
+        var final = false;
+        for (var i = 0; i < this.dts.finais.length; i++){
+          if (this.dts.steps[this.dts.steps.length-1].indexOf(this.dts.finais[i]) >= 0){
+            final = true;
+
+            break;
+          }
+        }
+      }else{
+        /* HOUVE DIGITO INVALIDO, APENAS DEVOLVEMOS */
+        final = false;
+      }
+
       xlog(":::::::");
-      
-      if (final){         
+
+      if (final){
         xlog("= String Aceita");
       }else{
-        xlog("= String NÃO Aceita");        
+        xlog("= String NÃO Aceita");
       }
-      
+
       return final;
     };
   };

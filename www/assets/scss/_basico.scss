@@ -18,6 +18,8 @@ header, nav, aside, article, section, footer{
 h1,h2,h3,h4,h5,h6,h7{
   display: block;
   border-bottom: 1px solid $cor3;
+  text-align: left;
+  margin: 0.5em 0;
 }
 
 html{
@@ -101,4 +103,8 @@ textarea:focus, input[type="text"], input[type="search"]{
 
 .ocultar{
   @include opacity(0, true);  
+}
+
+p{
+  margin: .5em 0;
 }

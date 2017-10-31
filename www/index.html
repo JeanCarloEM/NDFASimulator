@@ -2,61 +2,79 @@
 <HTML lang="pt-BR">
 
   <HEAD>
-    <meta charset="UTF-8">    
+    <meta charset="UTF-8">
     <meta name="generator" content="Scriptnalz 0.0.1, http://projetos.jeancarloem.com/Scriptnalz" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <TITLE>NFASimulator :: Simulador de Automoto Finito (Não-)Determinístico</TITLE>
+    <TITLE>NDFASimulator :: Simulador de Autômato Finito (Não-)Determinístico</TITLE>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>    
-    <script type="text/javascript" src="assets/js/lfa.min.js"></script>    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+    <script type="text/javascript" src="assets/js/lfa.min.js"></script>
     <script type="text/javascript" src="assets/js/main.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/main.css">        
-    
+    <link rel="stylesheet" href="assets/css/main.css">
+
   </HEAD>
 
   <body>
     <div class="enclausurebody enclausure pagebody">
       <section class="sectionwrapper">
         <a class='logo' target='_blank' href='//jeancarloem.com'></a>
-        <div class="clearfix contentwrapper no-js">          
+        <div class="clearfix contentwrapper no-js">
           <header id="mestre" class="mestre">
-            <a target='_blank' href='https://github.com/JeanCarloEM/NFASimulator' class="git fa fa-github"></a>
+            <a target='_blank' href='https://github.com/JeanCarloEM/NDFASimulator' class="git fa fa-github"></a>
           </header>
-          <header class="mid"><div><span>Simulador de Automoto Finito (Não-)Determinístico  (DFA e NDFA)</span></div></header>
+          <header class="mid"><div><span>Simulador de Autômato Finito (Não-)Determinístico (DFA e NDFA)</span></div></header>
 
           <section class="principal">
             <div>
-              <p>Este é um trabalho da disciplina "<b>Linguagens Formais e Autômatos</b>" do curso de Ciência da Computação. O Objetivo é construir um programa - utilizando qualquer linguagem - que simule um <b>Autômato Finito Determinístico e não determinístico (DFA e NDFA)</b>. Assim, este programa é capaz de determinar se uma dada string é ou não aceita por um autômato, sem uso de regex nativas. Para inserir o autômato o que se faz é a inclusão dos estados e das transições em uma tabela. Faça o teste! 
+              <p>
+                Um <a target='_blank' href="https://pt.wikipedia.org/wiki/Teoria_dos_aut%C3%B4matos">Autômato Finito</a> é uma máquina de estado, como a <a target='_blank' href="https://pt.wikipedia.org/wiki/M%C3%A1quina_de_Turing">Máquina de Turing</a>.
               </p>
-
-              <p><br />O estado inicial deve sempre ser o "q0", assim, ao passar as informações, caso este não seja o estado inicial, será necessário fazer ajustes. Clique sobre a célula dos estados para habilitá-lo ou não como estado final. </p>
+              <p>Este é um trabalho da disciplina "<b>Linguagens Formais e Autômatos</b>" do curso de Ciência da Computação. O Objetivo é construir um programa - utilizando qualquer linguagem - que simule um <b><a target='_blank' href="https://pt.wikipedia.org/wiki/Aut%C3%B4mato_finito_determin%C3%ADstico">Autômato Finito Determinístico (DFA)</a> e <a target='_blank' href="https://pt.wikipedia.org/wiki/M%C3%A1quina_de_estados_finitos_n%C3%A3o_determin%C3%ADstica">Autômato Finito Não-Determinístico (NDFA)</a></b>. Assim, este programa é capaz de determinar se uma dada string é ou não aceita por um autômato, sem o uso de regex nativas à linguagem de programação.
+              </p>
             </div>
 
             <div>
               <div class="sigma">
+                <h2>Defina o Alftabeto do Autômato</H2>
+                <p>Defina qual o Alfabeto reconhecido pelo Autômato. Para incluir a possiblidade de Épsilon (&epsilon;) utilize o @ (arroba).
+                </p>
                 <div class="sigmago"></div>
-                <input type="text" name="alfabeto" placeholder="Alfabeto sem espaco" />                
+                <input class="main" type="text" name="alfabeto" placeholder="Alfabeto sem espaco" />
               </div>
 
               <div class="tbl" style='display: none;'>
-                <table cellpadding="0" cellspacing="0" border="0" id="estados">
-                </table>
+                <h2>Defina os Estados do Autômato</H2>
+                <p>Agora adicione os estados do Autômato. É permitido apenas um digito para transições  que levam à apenas um estado e, para transições que levam a mais de uma estado, use a notação <i>JSON</i> para <i>ARRAY</i> (Ex: [1,2] ou [1,2,3]).
+                </p>
+                <p>Clique/toque sobre as células da coluna ST para ativar ou desabilitar o referido estado como estado final.</p>
 
-                <button>Adicionar Estado</button>
+                <br />
+                <div class="starterq">                  
+                  <input class="main" type="text" name="starter" placeholder="Estado Inicial (padrão '0')" size="1" maxlength="1" />
+                </div>
+
+                <div>
+                  <table cellpadding="0" cellspacing="0" border="0" id="estados"></table>
+                  <button>Adicionar Estado</button>
+                </div>
               </div>
 
               <div class="avaliar" style="display: none;">
+                <h2>Defina a String a ser Avaliada pelo Autômato</H2>
+                <p>Por último coloque alguma string para que o Autômato a avalie.
                 <div class="string"></div>
-                <input type="text" name="strvalidate" placeholder="String a ser Verificada" />
-              </div>              
-            </div>                        
-
+                <input class="main" type="text" name="strvalidate" placeholder="String a ser Verificada" />
+              </div>
+            </div>
+           
             <div class='resultado'></div>
 
-            <article>
-
-            </article>
+            <article></article>
+            
+            <div>
+            <p><i>* Os estados em linha tracejada são aqueles que foram adicionados à etapa (coluna) por serem o <b>destino</b> de uma transição Épsilon de um estado <b>origem</b> presente na mesma coluna.</i></p>
+            </div>            
           </section>
         </div>
       </section>
@@ -64,8 +82,8 @@
       <footer class="footerwrapper">
         <p>Copyright 2017 &copy; <a href="//jeancarloem.com">Jean Carlo EM</a>.</p>
 
-        <div class="licenca">          
-          <h2>Licença de Uso</h2>          
+        <div class="licenca">
+          <h2>Licença de Uso</h2>
           <h6>The MIT License (MIT)</h6>
           <img src="assets/img/mit.png" />
           <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
