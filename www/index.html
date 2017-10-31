@@ -23,20 +23,20 @@
           <header id="mestre" class="mestre">
             <a target='_blank' href='https://github.com/JeanCarloEM/NDFASimulator' class="git fa fa-github"></a>
           </header>
-          <header class="mid"><div><span>Simulador de Autômato Finito (Não-)Determinístico (DFA e NDFA)</span></div></header>
+          <header class="mid"><div><span>Simulador de Autômato Finito (Não-)Determinístico (AFD/DFA | AFND/NFA)</span></div></header>
 
           <section class="principal">
             <div>
               <p>
-                Um <a target='_blank' href="https://pt.wikipedia.org/wiki/Teoria_dos_aut%C3%B4matos">Autômato Finito</a> é uma máquina de estado, como a <a target='_blank' href="https://pt.wikipedia.org/wiki/M%C3%A1quina_de_Turing">Máquina de Turing</a>.
+                Um <a target='_blank' href="https://pt.wikipedia.org/wiki/Teoria_dos_aut%C3%B4matos">Autômato Finito</a> é uma <a target='_blank' href="https://pt.wikipedia.org/wiki/M%C3%A1quina_de_estados_finita">máquina de estado</a>, como a <a target='_blank' href="https://pt.wikipedia.org/wiki/M%C3%A1quina_de_Turing">Máquina de Turing</a>.
               </p>
-              <p>Este é um trabalho da disciplina "<b>Linguagens Formais e Autômatos</b>" do curso de Ciência da Computação. O Objetivo é construir um programa - utilizando qualquer linguagem - que simule um <b><a target='_blank' href="https://pt.wikipedia.org/wiki/Aut%C3%B4mato_finito_determin%C3%ADstico">Autômato Finito Determinístico (DFA)</a> e <a target='_blank' href="https://pt.wikipedia.org/wiki/M%C3%A1quina_de_estados_finitos_n%C3%A3o_determin%C3%ADstica">Autômato Finito Não-Determinístico (NDFA)</a></b>. Assim, este programa é capaz de determinar se uma dada string é ou não aceita por um autômato, sem o uso de regex nativas à linguagem de programação.
+              <p>Este é um trabalho da disciplina "<b>Linguagens Formais e Autômatos</b>" do curso de Ciência da Computação. O Objetivo é construir um programa - utilizando qualquer linguagem - que simule um <b><a target='_blank' href="https://pt.wikipedia.org/wiki/Aut%C3%B4mato_finito_determin%C3%ADstico">Autômato Finito Determinístico (AFD|DFA)</a> e <a target='_blank' href="https://pt.wikipedia.org/wiki/M%C3%A1quina_de_estados_finitos_n%C3%A3o_determin%C3%ADstica">Autômato Finito Não-Determinístico (AFND|NFA)</a></b>. Assim, este programa é capaz de determinar se uma dada string é ou não aceita por um autômato, sem o uso de regex nativas à linguagem de programação.
               </p>
             </div>
 
             <div>
               <div class="sigma">
-                <h2>Defina o Alftabeto do Autômato</H2>
+                <h2>Alftabeto do Autômato</H2>
                 <p>Defina qual o Alfabeto reconhecido pelo Autômato. Para incluir a possiblidade de Épsilon (&epsilon;) utilize o @ (arroba).
                 </p>
                 <div class="sigmago"></div>
@@ -44,14 +44,14 @@
               </div>
 
               <div class="tbl" style='display: none;'>
-                <h2>Defina os Estados do Autômato</H2>
-                <p>Agora adicione os estados do Autômato. É permitido apenas um digito para transições  que levam à apenas um estado e, para transições que levam a mais de uma estado, use a notação <i>JSON</i> para <i>ARRAY</i> (Ex: [1,2] ou [1,2,3]).
+                <h2>Estados do Autômato</H2>
+                <p>Agora adicione os estados do Autômato para cada uma das transições &Sigma;, seprandos os destinos por <b>ponto</b>, <b>virgula</b> ou por <b>traço</b>.
                 </p>
                 <p>Clique/toque sobre as células da coluna ST para ativar ou desabilitar o referido estado como estado final.</p>
 
                 <br />
-                <div class="starterq">                  
-                  <input class="main" type="text" name="starter" placeholder="Estado Inicial (padrão '0')" size="1" maxlength="1" />
+                <div class="starterq">
+                  <input class="main" type="number" name="starter" placeholder="Estado Inicial (padrão '0')" size="1" maxlength="1" />
                 </div>
 
                 <div>
@@ -61,7 +61,7 @@
               </div>
 
               <div class="avaliar" style="display: none;">
-                <h2>Defina a String a ser Avaliada pelo Autômato</H2>
+                <h2>String a ser Avaliada</H2>
                 <p>Por último coloque alguma string para que o Autômato a avalie.
                 <div class="string"></div>
                 <input class="main" type="text" name="strvalidate" placeholder="String a ser Verificada" />
@@ -84,8 +84,9 @@
 
         <div class="licenca">
           <h2>Licença de Uso</h2>
-          <h6>The MIT License (MIT)</h6>
-          <img src="assets/img/mit.png" />
+          O código <i>lfa.js</i> e <i>lfa.min.js</i> são disponibilizado nos termos da licença <a target='_blank' href="https://opensource.org/licenses/MIT">MIT</a>, todos os demais conteudos são disponibilizado sob <a target='_blank' href="https://creativecommons.org/licenses/by-sa/4.0/">CC-By-SA 4.0+</a> e <a target='_blank' href="hhttps://www.gnu.org/licenses/lgpl-3.0.en.html">LGPL 3.0+</a>, SALVO informação expressa em contrário, ou conteúdo de terceiros.
+          
+          <h6>The MIT License (MIT)</h6>          
           <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 
           <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>

@@ -18,7 +18,7 @@
     width: 100%;
     padding: 2em;
 
-    background: rgba(0, 0, 0, .3);
+    background: rgba(0, 0, 0, .15);
     color: #bbb;
 
     > p{
@@ -129,11 +129,12 @@
           }
         }
 
-        &.mid{
+        &.mid{          
           height: $HerderMid;
           margin-top: $HerderMestre;
           z-index: 101;
-          background: #2b92db;
+          background: #2b92db;          
+          padding: .3em 0;
 
           border-top: 1px solid $cor1;
           border-bottom: 1px solid $cor1;
@@ -142,7 +143,7 @@
           > div{
             height: $HerderMid;
             margin-left: .5em;
-            line-height: $HerderMid;
+            line-height: $HerderMid*1.1;
             vertical-align: middle;
 
             span{
@@ -175,6 +176,7 @@
           text-align: center;
 
           > div{
+            input.main[type='number'],
             input.main[type='text']{
               z-index: 1;
               width: 100%;
@@ -271,6 +273,10 @@
           > div.avaliar{
             > input{
               background: #ccc url('../img/str.svg') no-repeat !important;
+              
+              &.erro{
+                border-color: red;
+              }
             }
 
             div{
@@ -305,8 +311,12 @@
               &.starterq{
                 display: block;
 
-                input{
+                input,
+                input:focus{
                   background: #ccc url('../img/q0.svg') no-repeat;
+
+                  border-color: #2b92db;
+                  color: #000;
                 }
               }
 
@@ -348,18 +358,18 @@
                       cursor: pointer;
                     }
 
-                    &:hover{                    
+                    &:hover{
                       &:first-of-type{
                         background: #777 !important;
                         color: #fff;
                       }
                     }
-                    
+
                     &.checked:hover{
                       &:first-of-type{
                         background: #4CC2E4 !important;
                         color: #000;
-                      }                      
+                      }
                     }
 
                     &.checked{
@@ -397,14 +407,14 @@
           margin: 1em;
           text-align: center;
           overflow-x: auto;
-          max-width: 100%;          
+          max-width: 100%;
 
           div{
             display: inline-block;
 
             table{
               margin-bottom: 1em;
-              
+
               tr:first-of-type{
                 > td{
                   height: 5em;
@@ -413,7 +423,7 @@
                   background: rgba(0, 0, 0, 0.1);
 
                   &:after,
-                  &:before{
+                    &:before{
                     position: absolute;
                     right: .1em;
 
@@ -440,6 +450,13 @@
                     filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=-5); /*for IE*/
 
                     bottom: .1em;
+                  }
+
+                  &:last-of-type{
+                    &:after,
+                      &:before{
+                      content: "";
+                    }
                   }
                 }
               }
@@ -489,6 +506,24 @@
                       border-style: dashed !important;
                       border-width: .15em;
                     }
+                  }
+                }
+              }
+              
+              td:last-of-type{
+                div{
+                  border-color: #ff0000;
+                }
+                
+                &:has(>div.final){
+                  div{
+                    border-color: #2b92db;
+                  }
+                }
+                
+                div.final{
+                  &,&:before{
+                    border-color: #44cc44;
                   }
                 }
               }
