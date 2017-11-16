@@ -1,4 +1,4 @@
-[NDFASimulator](http://opensource.jeancarloem.com/NDFASimulator/) 0.22
+[NDFASimulator](http://opensource.jeancarloem.com/NDFASimulator/) 0.221
 ========================================
 
 Um [Autômato Finito](https://pt.wikipedia.org/wiki/Teoria_dos_aut%C3%B4matos) é uma [máquina de estado](https://pt.wikipedia.org/wiki/M%C3%A1quina_de_estados_finita), como a [Máquina de Turing](https://pt.wikipedia.org/wiki/M%C3%A1quina_de_Turing).
