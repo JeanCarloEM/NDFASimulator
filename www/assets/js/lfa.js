@@ -33,10 +33,12 @@
  */
 
 (function (window, $, xlog) {
-  window.lfa = function(){
+  window.lfa = function(){        
     this.dts = {
+      nfa: false,
+      
       /* NUL AQUI SIGNIFICA EPSON */
-      abto: ["0", "1", null],
+      abto: ["0", "1", 'ε'],
 
       /* NULL AQUI SIGNIFICA QUE NAO VAI PARA DESTINO ALGUM */
       destinos: [
@@ -52,9 +54,51 @@
 
     this.getDT = function(){
       return this.dts;
-    };
+    };    
+      
+    this.inAbto = function(chr){
+      var chrIndex = this.dts.abto.indexOf(chr);
+
+      if (chrIndex < 0){        
+        var num = /[\d]/.test(chr);
+        var alpha = /[a-zA-Z]/.test(chr);
+
+        if (num){          
+          chrIndex = this.dts.abto.indexOf('Δ');
+        }else if (alpha){          
+          chrIndex = this.dts.abto.indexOf('α');
+        }
+
+        if ( (chrIndex < 0) && (num || alpha) ){       
+          chrIndex = this.dts.abto.indexOf('ω');
+        }
+      }   
+
+      return chrIndex;
+    };    
 
     this.match = function(dtsOuStr, str, callback){
+      function inAbto(chr, dts){
+        var chrIndex = dts.abto.indexOf(chr);
+
+        if (chrIndex < 0){
+          var num = /[\d]/.test(chr);
+          var alpha = /[a-zA-Z]/.test(chr);
+
+          if (num){
+            chrIndex = dts.abto.indexOf('Δ');
+          }else if (alpha){
+            chrIndex = dts.abto.indexOf('α');
+          }
+
+          if ( (chrIndex < 0) && (num || alpha) ){
+            chrIndex = dts.abto.indexOf('ω');
+          }
+        }   
+
+        return chrIndex;
+      }
+      
       /*
        * ADICIONA UM ESTADO A UMA COLUNA (ST)
        * APENAS SE ELE JAH NAO TIVER SIDO INCLUIDO
@@ -77,7 +121,7 @@
         };
 
         if (st !== null){
-          if ((Array.isArray(st)) && (st.length > 0)){
+          if ((Array.isArray(st)) && (st.length > 0)){            
             for (var i = 0; i < st.length; i++){
               dts = add(dts, st[i], index, callback);
             }
@@ -95,18 +139,24 @@
        * TRANSICAO EPSON, ADICIONA O ESTADO DESTINO NA COLUNA (PASSO) ATUAL
        */
       function expandEpsilon(dts, callback){
-        function callEp(st, index){
+        function callEp(st, index){          
           callback(null, index, i, null, destino, (dts.finais.indexOf(destino)>=0), 0);
         }
 
         /* VERIFICA SE EXISTE NO ALFABETO O UPSILON */
-        var epsilonIndex = dts.abto.indexOf(null);
+        var epsilonIndex = dts.abto.indexOf("ε");
 
         if (epsilonIndex >= 0){
           /* OBTEM A ULTIMA ETAPA PARA O EXPANDIR */
-          var stepAtual = dts.steps.length-1;
+          var stepAtual = dts.steps.length-1;                              
 
           for (var i = 0; i < dts.steps[stepAtual].length; i++){
+            /* SE EXISTIR AO MENOS UM DESTINO EM EPSILOON, ENTAO EH NFA
+             * A VERIFICAO EH FEITA AQUI, PQ MESMO QUE O ALFABETO INCLUA O EPSSILON
+             * SE NAO HOUVER USO DELE NAO NFA
+             */            
+            dts.nfa = true;            
+            
             /* UM ESTADO A SER EXPANDIDO */
             var estado = dts.steps[stepAtual][i];
 
@@ -115,7 +165,7 @@
 
             /* SE HOUVER UM DESTINO VÁLIDO */
             xlog("@ EXPANDINDO EPSILONS:");
-            dts = addST(dts, destino, stepAtual, callEp);
+            dts = addST(dts, destino, stepAtual, callEp);            
           }
         }
 
@@ -152,9 +202,9 @@
 
         /* SE DIGITO FOR VALIDO ENTAO PROCESSA-LO */
         if ((chr!==null)&&(typeof chr === "string")&&(chr.length>0)){
-          /* OBTEM O INDICE DA TRANSICAO NO ALFABETO */
-          var chrIndex = dts.abto.indexOf(chr);
-
+          /* OBTEM O INDICE DA TRANSICAO NO ALFABETO */                    
+          var chrIndex = inAbto(chr, dts);
+        
           if (chrIndex >= 0){
             var stepAtual = dts.steps.length-1;
 
@@ -169,14 +219,13 @@
               if ((estado !== null) && (typeof estado === "number") && (estado >= 0)){
                 /* OBTEM O DESTINO DA TRASICAO (chr) DESTE ESTADO */
                 var destino = dts.destinos[estado][chrIndex];
+                
+                xlog("# DESTINO: q" + destino);
 
                 if (destino !== null){
                   dts = addST(dts, destino, newStep, ((Array.isArray(destino))?callbAddMulti:callbAdd));
                 }
               }else{
-                xlog(dts.steps);
-                xlog(estado);
-                xlog(destino);
                 throw "[ERRO] Estado invalido presente na sequencia.";
               }
             }
@@ -218,8 +267,9 @@
        * PROCESSAMOS O CARACTERE C, DOS DADOS "DTS" CHAMANDO CALLBACK
        * PARA O PROCESSAMENTO
        */
-      function processChars(c, dts, callback){
+      function processChars(c, dts, callback){        
         this.dts = processStep(c, dts, callback);
+        
         if (typeof callback === "function"){
           callback(c, dts.steps.length-1, i, null, null, null, 3);
         }
@@ -228,11 +278,11 @@
       };
 
       function iniciaDestinos(dts){
-        var rg = /^(\s*[0-9](\s*[,\.\-]\s?[0-9])*\s*)?$/;
+        var rg = /^(\s*[0-9]+(\s*[,\.\-]\s?[0-9]+)*\s*)?$/;
 
         for (var i = 0; i < dts.destinos.length; i++){
           for (var j = 0; j < dts.destinos[i].length; j++){
-            var d = (""+dts.destinos[i][j].replace(/[^0-9,\.\-]/g, ''));
+            var d = (""+dts.destinos[i][j]).replace(/[^0-9,\.\-]/g, '');
 
             if (!rg.test(d)){
               throw "[ERRO] O estado q"+i+" possui uma transicao ["+j+"] cujo destino nao é aceito '"+d+"'.";
@@ -244,16 +294,22 @@
               d = null;
             }
 
+            if ((typeof d === 'object') || (Array.isArray(d))){
+              dts.nfa = true;
+            }
+
             dts.destinos[i][j] = d;
           }
         }
 
         return dts;
       };
+      
+      this.nfa = false;
 
       /* INICIALIZANDO PARAMETROS */
       str       = ((typeof str === "string") && (str.length > 0)) ? str : dtsOuStr;
-      this.dts  = processStep(null, iniciaDestinos((typeof dtsOuStr === "object") ? dtsOuStr : this.dts), (callback));
+      this.dts  = processStep(null, iniciaDestinos((typeof dtsOuStr === "object") ? dtsOuStr : this.dts), (callback));            
 
       /* POR PADRAO CONSIDERA QUE NAO HAVERA DIGITOS INVALIDOS */
       var invalidDigit = false;
@@ -269,7 +325,7 @@
          * SE O DIGITO A SER ANALISADO NAO FOR UM DIGITO VALIDO NO ALFABETO
          * SIGMA ENTAO ABORDAMOS
          */
-        if (this.dts.abto.indexOf(str[i]) < 0){
+        if (inAbto(str[i], this.dts) < 0){
           invalidDigit = true;
 
           /* AQUI CRIAMOS O PROXIMO PASSO, QUE SERAH VAZIO, JAH QUE ABORTAMOS */

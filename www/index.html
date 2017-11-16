@@ -9,6 +9,8 @@
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
     <script type="text/javascript" src="assets/js/lfa.min.js"></script>
+    <script type="text/javascript" src="assets/js/draw.min.js"></script>
+    <script type="text/javascript" src="assets/js/regex.min.js"></script>
     <script type="text/javascript" src="assets/js/main.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/main.css">
@@ -37,10 +39,43 @@
             <div>
               <div class="sigma">
                 <h2>Alftabeto do Autômato</H2>
-                <p>Defina qual o Alfabeto reconhecido pelo Autômato. Para incluir a possiblidade de Épsilon (&epsilon;) utilize o @ (arroba).
+                <p>Defina qual o Alfabeto reconhecido pelo Autômato. Para incluir a possiblidade de Épsilon (&epsilon;) e outros utilize a tabela abaixo:
                 </p>
+
+                <table cellpadding="0" cellspacing="0" border="0" class="curingas">
+                  <tr>
+                    <td>&epsilon;</td>
+                    <td>Para habilitar transações epsilons</td>
+                  </tr>
+
+                  <tr>
+                    <td>&Delta;</td>
+                    <td>Como um curinga para todos os digitos numéricos [0-9]</td>
+                  </tr>
+
+                  <tr>
+                    <td>&alpha;</td>
+                    <td>Como um curinga para todos os digitos alfabéticos [a-zA-Z]</td>
+                  </tr>
+
+                  <tr>
+                    <td>&omega;</td>
+                    <td>Como um curinga para todos os digitos alfanuméricos [a-zA-Z0-9]</td>
+                  </tr>
+                </table>
+
+                <h4>Informe o Alfabeto...</h4>
                 <div class="sigmago"></div>
-                <input class="main" type="text" name="alfabeto" placeholder="Alfabeto sem espaco" />
+                <input class="main" type="text" name="alfabeto" placeholder="Alfabeto sem espaco" value="" />
+
+                <h4>...OU selecione um predefinido</h4>
+                <select id="predefinido">
+                  <option value="" disabled selected>Selecione Predefinido</option>
+                  <option value="email">Emails</option>
+                  <option value="moeda">Moeda 99.999,99</option>
+                  <option value="bit">Bit inicia 1 e termina 0</option>
+                  <option value="bitpar">Número par de 0s e 1s</option>
+                </select>
               </div>
 
               <div class="tbl" style='display: none;'>
@@ -51,7 +86,7 @@
 
                 <br />
                 <div class="starterq">
-                  <input class="main" type="number" name="starter" placeholder="Estado Inicial (padrão '0')" size="1" maxlength="1" />
+                  <!--<input class="main" type="number" name="starter" placeholder="Estado Inicial (padrão '0')" size="1" maxlength="1" />-->
                 </div>
 
                 <div>
@@ -67,14 +102,23 @@
                 <input class="main" type="text" name="strvalidate" placeholder="String a ser Verificada" />
               </div>
             </div>
-           
+
             <div class='resultado'></div>
 
+            <div class='automato' style="display: none;">
+              <canvas></canvas>
+
+              <div class="passo">
+                <button class="passos prev"><< Passo Anterior</button>
+                <button class="passos next">Proximo Passo >></button>
+              </div>
+            </div>
+
             <article></article>
-            
+
             <div>
-            <p><i>* Os estados em linha tracejada são aqueles que foram adicionados à etapa (coluna) por serem o <b>destino</b> de uma transição Épsilon de um estado <b>origem</b> presente na mesma coluna.</i></p>
-            </div>            
+              <p><i>* Os estados em linha tracejada são aqueles que foram adicionados à etapa (coluna) por serem o <b>destino</b> de uma transição Épsilon de um estado <b>origem</b> presente na mesma coluna.</i></p>
+            </div>
           </section>
         </div>
       </section>
@@ -85,8 +129,8 @@
         <div class="licenca">
           <h2>Licença de Uso</h2>
           O código <i>lfa.js</i> e <i>lfa.min.js</i> são disponibilizado nos termos da licença <a target='_blank' href="https://opensource.org/licenses/MIT">MIT</a>, todos os demais conteudos são disponibilizado sob <a target='_blank' href="https://creativecommons.org/licenses/by-sa/4.0/">CC-By-SA 4.0+</a> e <a target='_blank' href="hhttps://www.gnu.org/licenses/lgpl-3.0.en.html">LGPL 3.0+</a>, SALVO informação expressa em contrário, ou conteúdo de terceiros.
-          
-          <h6>The MIT License (MIT)</h6>          
+
+          <h6>The MIT License (MIT)</h6>
           <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 
           <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
