@@ -5,7 +5,7 @@ Um [Autômato Finito](https://pt.wikipedia.org/wiki/Teoria_dos_aut%C3%B4matos) �
 
 Este é um trabalho da disciplina "**Linguagens Formais e Autômatos**" do curso de Ciência da Computação. O objetivo é construir um programa - utilizando qualquer linguagem - que simule um [Autômato Finito Determinístico (AFD|DFA)](https://pt.wikipedia.org/wiki/Aut%C3%B4mato_finito_determin%C3%ADstico) e [Autômato Finito Não-Determinístico (AFND|NFA)](https://pt.wikipedia.org/wiki/M%C3%A1quina_de_estados_finitos_n%C3%A3o_determin%C3%ADstica). Assim, este programa é capaz de determinar se uma dada string é ou não aceita por um autômato, sem o uso de regex nativas à linguagem de programação.
 
-[Veja uma demonstração online](http://ndfasimulator.lab.jeancarloem.com).
+[Veja uma demonstração online](http://ndfasimulator.jcem.pro).
 
 ## Sobre
 
